@@ -1,0 +1,130 @@
+{
+  "_meta": {
+    "owner": "MIRA",
+    "theme": "Elemental Wardens — ancient spirits bound to natural forces",
+    "naming_rules": [
+      "no crypto jargon (wallet, gas, token, chain, mint, gm, wagmi)",
+      "no modern words — fantasy/mythic only",
+      "ability text max 15 words",
+      "abilities describe game effects in plain english"
+    ],
+    "stat_rules": {
+      "attack": "1-10",
+      "defense": "1-10",
+      "hp_cost": "1-5",
+      "common_max_total": 12,
+      "rare_max_total": 16,
+      "legendary_max_total": 22
+    }
+  },
+  "cards": [
+    {
+      "card_id": "ryft_001",
+      "name": "Ashveil Soldier",
+      "rarity": "common",
+      "attack": 4,
+      "defense": 3,
+      "hp_cost": 2,
+      "ability": null
+    },
+    {
+      "card_id": "ryft_002",
+      "name": "Tidecaller",
+      "rarity": "common",
+      "attack": 3,
+      "defense": 5,
+      "hp_cost": 2,
+      "ability": null
+    },
+    {
+      "card_id": "ryft_003",
+      "name": "Stoneborn Pilgrim",
+      "rarity": "common",
+      "attack": 2,
+      "defense": 6,
+      "hp_cost": 2,
+      "ability": null
+    },
+    {
+      "card_id": "ryft_004",
+      "name": "Thornwalker",
+      "rarity": "common",
+      "attack": 5,
+      "defense": 2,
+      "hp_cost": 2,
+      "ability": null
+    },
+    {
+      "card_id": "ryft_005",
+      "name": "Duskmoth Scout",
+      "rarity": "common",
+      "attack": 3,
+      "defense": 3,
+      "hp_cost": 1,
+      "ability": null
+    },
+    {
+      "card_id": "ryft_006",
+      "name": "Hollow Priest",
+      "rarity": "common",
+      "attack": 2,
+      "defense": 4,
+      "hp_cost": 1,
+      "ability": null
+    },
+    {
+      "card_id": "ryft_007",
+      "name": "Emberstrike Warden",
+      "rarity": "rare",
+      "attack": 7,
+      "defense": 4,
+      "hp_cost": 3,
+      "ability": "On play, deal 2 burn damage that ignores defense."
+    },
+    {
+      "card_id": "ryft_008",
+      "name": "Frostbound Huntress",
+      "rarity": "rare",
+      "attack": 6,
+      "defense": 5,
+      "hp_cost": 3,
+      "ability": "Chills the enemy — their next attack does half damage."
+    },
+    {
+      "card_id": "ryft_009",
+      "name": "Stormtongue Oracle",
+      "rarity": "rare",
+      "attack": 5,
+      "defense": 6,
+      "hp_cost": 3,
+      "ability": "Reveals the top card of the opponent's deck each turn."
+    },
+    {
+      "card_id": "ryft_010",
+      "name": "Hollow Crown",
+      "rarity": "rare",
+      "attack": 8,
+      "defense": 3,
+      "hp_cost": 4,
+      "ability": "When this falls, draw one card from the wilds."
+    },
+    {
+      "card_id": "ryft_011",
+      "name": "The Unbroken",
+      "rarity": "legendary",
+      "attack": 10,
+      "defense": 8,
+      "hp_cost": 5,
+      "ability": "Cannot be destroyed by common cards. Heals 3 each turn."
+    },
+    {
+      "card_id": "ryft_012",
+      "name": "Voidmother",
+      "rarity": "legendary",
+      "attack": 9,
+      "defense": 7,
+      "hp_cost": 5,
+      "ability": "Reveals a hidden card from the opponent's hand and silences it."
+    }
+  ]
+}
