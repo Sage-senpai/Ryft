@@ -1,0 +1,12 @@
+{
+  "_owner": "VERA",
+  "_note": "Config for `weave rollup launch --with-config infra/weave.config.json --vm wasm`. Replace empty fields on Day 2 before Day-3 launch.",
+  "chain_id": "ryft-1",
+  "moniker": "ryft-validator-0",
+  "vm": "wasm",
+  "denom": "uryft",
+  "op_bridge_enabled": true,
+  "executor_enabled": true,
+  "ibc_relayer_enabled": true,
+  "gas_station_account": ""
+}

@@ -1,0 +1,20 @@
+{
+  "_owner": "VERA",
+  "_status": "placeholder — VERA overwrites after `weave rollup launch` on Day 3",
+  "chain_id": "ryft-1",
+  "vm": "wasm",
+  "rpc_url": "",
+  "rest_url": "",
+  "ws_url": "",
+  "faucet_url": "",
+  "explorer_url": "",
+  "contract_addresses": {
+    "ryft_card_registry": "",
+    "ryft_battle": "",
+    "ryft_session": ""
+  },
+  "l1": {
+    "rest_url": "https://rest.testnet.initia.xyz",
+    "usernames_module": "0x42cd8467b1c86e59bf319e5664a09b6b5840bb3fac64f5ce690b5041c530565a"
+  }
+}

@@ -1,0 +1,29 @@
+[workspace]
+members = ["ryft_card_registry", "ryft_battle", "ryft_session"]
+resolver = "2"
+
+[workspace.package]
+edition = "2021"
+version = "0.0.1"
+license = "Apache-2.0"
+
+[workspace.dependencies]
+cosmwasm-std = "2.1"
+cosmwasm-schema = "2.1"
+cw-storage-plus = "2.0"
+cw-multi-test = "2.1"
+serde = { version = "1", default-features = false, features = ["derive"] }
+thiserror = "1"
+sha2 = "0.10"
+hex = "0.4"
+
+[profile.release]
+opt-level = 3
+debug = false
+rpath = false
+lto = true
+debug-assertions = false
+codegen-units = 1
+panic = 'abort'
+incremental = false
+overflow-checks = true
