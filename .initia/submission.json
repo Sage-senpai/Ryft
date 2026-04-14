@@ -1,0 +1,12 @@
+{
+  "project_name": "RYFT",
+  "repo_url": "https://github.com/REPLACE_ME/ryft",
+  "commit_sha": "0000000000000000000000000000000000000000",
+  "rollup_chain_id": "ryft-1",
+  "deployed_address": "init1_replace_me_after_deploy",
+  "vm": "wasm",
+  "native_feature": "auto-signing",
+  "core_logic_path": "packages/contracts/ryft_battle/src/lib.rs",
+  "native_feature_frontend_path": "packages/web/src/hooks/useSessionKey.ts",
+  "demo_video_url": "https://youtu.be/REPLACE_ME"
+}
