@@ -1,0 +1,40 @@
+# Primary forks + reference sources — not tracked in RYFT repo
+project_web3_battle_game/
+template-nextjs/
+initia-examples/
+
+# Node
+node_modules/
+.pnp
+.pnp.js
+
+# Build output
+.next/
+out/
+dist/
+build/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Testing / coverage
+coverage/
+.nyc_output/
+
+# Turbo / cache
+.turbo/
+.cache/

@@ -1,0 +1,286 @@
+
+<h2 class="sr-only">Combined project brief: AvaxGods + Phaser 3, five name options, four agent profiles, full walkthrough</h2>
+<style>
+*{box-sizing:border-box}
+.sec{margin:2rem 0}
+.sec-label{font-size:10px;font-family:var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--color-text-secondary);margin:0 0 6px}
+.sec-title{font-size:20px;font-weight:500;margin:0 0 1.25rem;color:var(--color-text-primary)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem}
+.card.selected{border:2px solid var(--color-border-info)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:9999px;font-size:11px;font-family:var(--font-mono);border:0.5px solid}
+.pill-teal{background:#E1F5EE;color:#0F6E56;border-color:#5DCAA5}
+.pill-purple{background:#EEEDFE;color:#3C3489;border-color:#7F77DD}
+.pill-amber{background:#FAEEDA;color:#633806;border-color:#EF9F27}
+.pill-coral{background:#FAECE7;color:#712B13;border-color:#F0997B}
+.pill-gray{background:var(--color-background-secondary);color:var(--color-text-secondary);border-color:var(--color-border-secondary)}
+.muted{color:var(--color-text-secondary);font-size:13px;line-height:1.6;margin:0}
+.mono{font-family:var(--font-mono);font-size:12px;color:var(--color-text-secondary)}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:12px 0}
+.name-card{cursor:pointer;transition:border-color .15s,background .15s;text-align:center;padding:1.25rem 1rem}
+.name-card:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.name-card.chosen{border:2px solid var(--color-border-info);background:var(--color-background-info)}
+.name-title{font-size:22px;font-weight:500;margin:0 0 4px}
+.name-punch{font-size:12px;color:var(--color-text-secondary);line-height:1.5;margin:0}
+.name-card.chosen .name-title{color:var(--color-text-info)}
+.name-card.chosen .name-punch{color:var(--color-text-info)}
+.agent-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;background:var(--color-background-primary)}
+.agent-avatar{width:40px;height:40px;border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;margin-bottom:10px}
+.agent-name{font-size:15px;font-weight:500;margin:0 0 2px}
+.agent-role{font-size:11px;font-family:var(--font-mono);color:var(--color-text-secondary);margin:0 0 10px}
+.agent-bio{font-size:12px;color:var(--color-text-secondary);line-height:1.6;margin:0 0 10px}
+.req-item{font-size:12px;color:var(--color-text-secondary);padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;gap:6px}
+.req-item:last-child{border-bottom:none}
+.req-num{font-family:var(--font-mono);color:var(--color-text-info);font-size:11px;flex-shrink:0}
+.walk-step{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;font-size:12px;font-family:var(--font-mono);font-weight:500;flex-shrink:0;color:var(--color-text-primary)}
+.step-body{flex:1}
+.step-title{font-size:14px;font-weight:500;margin:0 0 3px}
+.step-detail{font-size:12px;color:var(--color-text-secondary);line-height:1.6;margin:0}
+.step-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.merge-row{display:grid;grid-template-columns:1fr 36px 1fr;gap:8px;align-items:center;margin-bottom:1.5rem}
+.merge-src{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px}
+.merge-src-title{font-size:13px;font-weight:500;margin:0 0 4px}
+.merge-src-parts{display:flex;flex-direction:column;gap:3px}
+.merge-src-part{font-size:11px;color:var(--color-text-secondary);font-family:var(--font-mono)}
+.merge-arrow{text-align:center;font-size:20px;color:var(--color-text-secondary)}
+.merge-out{background:var(--color-background-info);border:0.5px solid var(--color-border-info);border-radius:var(--border-radius-lg);padding:1.25rem}
+.merge-out-title{font-size:15px;font-weight:500;color:var(--color-text-info);margin:0 0 6px}
+.merge-out-parts{display:flex;flex-direction:column;gap:4px}
+.merge-out-part{font-size:12px;color:var(--color-text-info)}
+.commit-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px}
+.commit-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.commit-msg{font-family:var(--font-mono);font-size:12px;color:var(--color-text-primary);flex:1}
+.commit-when{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+</style>
+
+<div style="padding:1rem 0">
+
+<div class="sec">
+  <div class="sec-label">01 — The merge</div>
+  <div class="sec-title">What combining both repos actually gives you</div>
+  <div class="merge-row">
+    <div class="merge-src">
+      <div class="merge-src-title">AvaxGods (repo 1)</div>
+      <div class="merge-src-parts">
+        <span class="merge-src-part">Card battle smart contracts</span>
+        <span class="merge-src-part">Multiplayer lobby system</span>
+        <span class="merge-src-part">Battle state management</span>
+        <span class="merge-src-part">Wallet connect architecture</span>
+        <span class="merge-src-part">Win/loss resolution logic</span>
+      </div>
+    </div>
+    <div class="merge-arrow">+</div>
+    <div class="merge-src">
+      <div class="merge-src-title">Phaser + Next.js (repo 2)</div>
+      <div class="merge-src-parts">
+        <span class="merge-src-part">WebGL sprite animation engine</span>
+        <span class="merge-src-part">Particle + spell effects system</span>
+        <span class="merge-src-part">Scene state machine</span>
+        <span class="merge-src-part">Camera + tween system</span>
+        <span class="merge-src-part">Next.js page/routing shell</span>
+      </div>
+    </div>
+  </div>
+  <div class="merge-out">
+    <div class="merge-out-title">The result: animated on-chain card battle — no dApp anywhere in the UX</div>
+    <div class="merge-out-parts">
+      <span class="merge-out-part">Cards are Phaser sprites — attacks animate, HP bars drain, effects fire in real WebGL</span>
+      <span class="merge-out-part">Every card play auto-signs via Initia session keys — zero wallet popups mid-battle</span>
+      <span class="merge-out-part">Battle state lives on-chain in CosmWasm — results are verifiable, no server trust needed</span>
+      <span class="merge-out-part">Players enter with .init usernames — no addresses anywhere in the UI</span>
+      <span class="merge-out-part">Cards bridge across Initia appchains via Interwoven Bridge — true cross-game assets</span>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-label">02 — Name the game</div>
+  <div class="sec-title">Five name options — click to select</div>
+  <div class="grid3" id="name-grid" style="grid-template-columns:repeat(5,minmax(0,1fr))">
+    <div class="card name-card chosen" onclick="selectName(0,this)">
+      <div class="name-title">RIFT</div>
+      <div class="name-punch">"Cross-chain combat. Proven on-chain."</div>
+    </div>
+    <div class="card name-card" onclick="selectName(1,this)">
+      <div class="name-title">AXIOM</div>
+      <div class="name-punch">"Unbreakable rules. Unstoppable battles."</div>
+    </div>
+    <div class="card name-card" onclick="selectName(2,this)">
+      <div class="name-title">WOVEN</div>
+      <div class="name-punch">"Every card. Every chain. Every battle."</div>
+    </div>
+    <div class="card name-card" onclick="selectName(3,this)">
+      <div class="name-title">FRACTURE</div>
+      <div class="name-punch">"Break the meta. Own the proof."</div>
+    </div>
+    <div class="card name-card" onclick="selectName(4,this)">
+      <div class="name-title">LOOM</div>
+      <div class="name-punch">"Woven battles. Permanent victories."</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-label">03 — Agent team</div>
+  <div class="sec-title">Four agents, one shipping product</div>
+  <div class="grid2">
+
+    <div class="agent-card">
+      <div class="agent-avatar" style="background:#E1F5EE;border:1px solid #5DCAA5">🎮</div>
+      <div class="agent-name">Agent COLE</div>
+      <div class="agent-role">Senior Frontend + Phaser Lead · 9 yrs exp</div>
+      <p class="agent-bio">Built browser games at Miniclip and a Web3 studio. Deep Phaser 3 internals knowledge — has shipped 4 production WebGL games. Opinionated about scene architecture, hates spaghetti render loops, writes typed everything.</p>
+      <div class="divider"></div>
+      <div class="sec-label" style="margin:0 0 4px">Portfolio context</div>
+      <p class="muted" style="margin-bottom:8px">Three shipped Phaser games (30k+ DAU), one published Next.js + Phaser SDK, open-source contributor to Phaser's TypeScript defs.</p>
+      <div class="sec-label" style="margin:0 0 4px">Minimum per deliverable</div>
+      <div class="req-item"><span class="req-num">D1</span>Scene architecture doc before any Phaser code is written. Scenes: Boot, Preload, MainMenu, Lobby, Battle, GameOver</div>
+      <div class="req-item"><span class="req-num">D2</span>Card sprite system with atlas-based animation — no individual PNG files per frame</div>
+      <div class="req-item"><span class="req-num">D3</span>Session key hook integrated — Phaser emits game events, hook auto-signs and broadcasts. Zero await inside game loop</div>
+      <div class="req-item"><span class="req-num">D4</span>60fps on Chrome with 20+ on-screen tweens. Lighthouse perf score 80+</div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-avatar" style="background:#EEEDFE;border:1px solid #7F77DD">⬡</div>
+      <div class="agent-name">Agent VERA</div>
+      <div class="agent-role">Smart Contract + Initia Infra Lead · 6 yrs exp</div>
+      <p class="agent-bio">Former EVM core dev, moved into Cosmos/CosmWasm two years ago. Deployed five production contracts on Cosmos chains. Knows the Initia SDK inside out from reading source. Paranoid about reentrancy, documents everything.</p>
+      <div class="divider"></div>
+      <div class="sec-label" style="margin:0 0 4px">Portfolio context</div>
+      <p class="muted" style="margin-bottom:8px">Three CosmWasm contracts in mainnet production, one Minitia testnet deployment, authored internal CosmWasm testing playbook used by 12-person team.</p>
+      <div class="sec-label" style="margin:0 0 4px">Minimum per deliverable</div>
+      <div class="req-item"><span class="req-num">D1</span>Minitia testnet live with chain ID, RPC, and faucet endpoint — delivered Day 3, not Day 5</div>
+      <div class="req-item"><span class="req-num">D2</span>All contracts unit-tested with cosmwasm-multitest before any frontend integration</div>
+      <div class="req-item"><span class="req-num">D3</span>Session key grant/revoke flow documented with expected gas costs per operation</div>
+      <div class="req-item"><span class="req-num">D4</span>submission.json complete and valid — chain ID, contract addresses, txn links all present</div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-avatar" style="background:#FAEEDA;border:1px solid #EF9F27">✦</div>
+      <div class="agent-name">Agent MIRA</div>
+      <div class="agent-role">Game Designer + UX Engineer · 5 yrs exp</div>
+      <p class="agent-bio">Card game obsessive — has shipped one indie card game, designed two Web3 games at a GameFi studio. Splits time between Figma and code. Owns the feel, pacing, and "does this actually feel good to play" test. Refuses to ship ugly UX.</p>
+      <div class="divider"></div>
+      <div class="sec-label" style="margin:0 0 4px">Portfolio context</div>
+      <p class="muted" style="margin-bottom:8px">Card game shipped on itch.io (8k plays), one Figma design system for a 15-person studio, UX lead on two shipped GameFi browser titles.</p>
+      <div class="sec-label" style="margin:0 0 4px">Minimum per deliverable</div>
+      <div class="req-item"><span class="req-num">D1</span>Card design system: 12 unique card types, stat framework, rarity tiers — delivered as Figma + JSON schema</div>
+      <div class="req-item"><span class="req-num">D2</span>Battle flow diagram with turn timing, animation beats, and state transitions before any Phaser scene is built</div>
+      <div class="req-item"><span class="req-num">D3</span>Lobby UX: player finds a match within 3 taps from landing. No address strings visible anywhere</div>
+      <div class="req-item"><span class="req-num">D4</span>Playtest log — 5 non-crypto people play the game, friction points documented and addressed</div>
+    </div>
+
+    <div class="agent-card">
+      <div class="agent-avatar" style="background:#FAECE7;border:1px solid #F0997B">⚙</div>
+      <div class="agent-name">Agent KAI</div>
+      <div class="agent-role">Backend + DevOps + Integration · 4 yrs exp</div>
+      <p class="agent-bio">Glue engineer — makes sure everything that should talk to each other actually does. Cosmos node ops experience, comfortable with Docker, GitHub Actions, and debugging JSON-RPC weirdness at 2am. Owns the demo staying live.</p>
+      <div class="divider"></div>
+      <div class="sec-label" style="margin:0 0 4px">Portfolio context</div>
+      <p class="muted" style="margin-bottom:8px">Deployed and maintained two Cosmos validator nodes, built CI/CD pipelines for three dApp teams, integrated five different wallet SDKs across different chains.</p>
+      <div class="sec-label" style="margin:0 0 4px">Minimum per deliverable</div>
+      <div class="req-item"><span class="req-num">D1</span>Shared .env.example in repo root Day 1 — all endpoints, chain IDs, contract addresses documented</div>
+      <div class="req-item"><span class="req-num">D2</span>GitHub Actions CI: lint + test on every PR, Vercel preview deploy on push to main</div>
+      <div class="req-item"><span class="req-num">D3</span>Matchmaking websocket server (Node.js) — pairs players, confirms both wallets connected before battle starts</div>
+      <div class="req-item"><span class="req-num">D4</span>Demo video infra: OBS config, demo script, fallback recording if live demo fails on submission day</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-label">04 — Commit strategy</div>
+  <div class="sec-title">When to commit, what the message says</div>
+  <div class="card">
+    <div class="commit-row"><div class="commit-dot" style="background:#1D9E75"></div><div><div class="commit-msg">feat(chain): deploy minitia testnet, expose RPC + faucet endpoints</div><div class="commit-when">Trigger: Minitia chain is live and reachable — Agent VERA</div></div></div>
+    <div class="commit-row"><div class="commit-dot" style="background:#1D9E75"></div><div><div class="commit-msg">feat(contracts): add battle state machine with turn validation</div><div class="commit-when">Trigger: all contract unit tests pass — Agent VERA</div></div></div>
+    <div class="commit-row"><div class="commit-dot" style="background:#7F77DD"></div><div><div class="commit-msg">feat(game): scaffold Phaser scene tree Boot→Preload→Menu→Battle→GameOver</div><div class="commit-when">Trigger: scene transitions work without errors — Agent COLE</div></div></div>
+    <div class="commit-row"><div class="commit-dot" style="background:#7F77DD"></div><div><div class="commit-msg">feat(game): add card sprite atlas with attack and idle animations</div><div class="commit-when">Trigger: all 12 card types animate at 60fps in BattleScene — Agent COLE</div></div></div>
+    <div class="commit-row"><div class="commit-dot" style="background:#EF9F27"></div><div><div class="commit-msg">feat(ux): add lobby matchmaking UI with .init username display</div><div class="commit-when">Trigger: two wallets can pair and enter battle — Agent MIRA + KAI</div></div></div>
+    <div class="commit-row"><div class="commit-dot" style="background:#EF9F27"></div><div><div class="commit-msg">feat(ux): integrate InterwovenKit wallet connect and session key grant flow</div><div class="commit-when">Trigger: session key persists across full browser refresh — Agent COLE + VERA</div></div></div>
+    <div class="commit-row"><div class="commit-dot" style="background:#D85A30"></div><div><div class="commit-msg">feat(bridge): add Interwoven Bridge card import from external appchain</div><div class="commit-when">Trigger: card imported from testnet chain B appears in player hand — Agent VERA</div></div></div>
+    <div class="commit-row"><div class="commit-dot" style="background:#D85A30"></div><div><div class="commit-msg">feat(game): add particle spell effects and camera shake on critical hits</div><div class="commit-when">Trigger: all 5 spell types have distinct Phaser particle emitters — Agent COLE</div></div></div>
+    <div class="commit-row"><div class="commit-dot" style="background:#888780"></div><div><div class="commit-msg">fix(session): handle expired session key mid-battle with auto-renew fallback</div><div class="commit-when">Trigger: edge case tested and handled — any agent</div></div></div>
+    <div class="commit-row"><div class="commit-dot" style="background:#888780"></div><div><div class="commit-msg">chore(submission): finalize submission.json, README, and demo video link</div><div class="commit-when">Trigger: all checklist items verified — Agent KAI + Arch</div></div></div>
+    <div style="margin-top:10px;padding:10px 12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md)">
+      <p class="mono" style="color:var(--color-text-danger)">Never include: "co-authored by claude", "generated by AI", "with assistance from"</p>
+      <p class="mono" style="margin-top:4px">Never run: git push — all pushes are manual, reviewed by human</p>
+      <p class="mono" style="margin-top:4px">Always include: agent owner in commit body (e.g. "Owner: VERA") — not co-author</p>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-label">05 — Walkthrough</div>
+  <div class="sec-title">Day-by-day build sequence</div>
+
+  <div class="walk-step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <div class="step-title">Days 1–2: Foundation</div>
+      <p class="step-detail">VERA deploys the Minitia and writes the card registry + battle state contracts. KAI scaffolds the monorepo (Next.js + Phaser template), writes .env.example, sets up GitHub Actions. COLE reads scene architecture, writes the scene tree skeleton with placeholder assets. MIRA delivers card design JSON schema and Figma card templates.</p>
+      <div class="step-tags"><span class="pill pill-coral">VERA: chain live</span><span class="pill pill-gray">KAI: repo ready</span><span class="pill pill-teal">COLE: scenes scaffold</span><span class="pill pill-amber">MIRA: card schema</span></div>
+    </div>
+  </div>
+
+  <div class="walk-step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <div class="step-title">Days 3–6: Core contracts + game loop</div>
+      <p class="step-detail">VERA unit-tests all contracts, publishes ABI types package. COLE builds the card sprite atlas and wires Phaser BattleScene to mock battle data. MIRA implements lobby UI in Next.js — search by .init name, challenge flow. KAI builds the Node.js matchmaking websocket server.</p>
+      <div class="step-tags"><span class="pill pill-coral">VERA: ABIs published</span><span class="pill pill-teal">COLE: battle renders</span><span class="pill pill-amber">MIRA: lobby live</span><span class="pill pill-gray">KAI: matchmaking up</span></div>
+    </div>
+  </div>
+
+  <div class="walk-step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <div class="step-title">Days 7–11: Integration — Phaser talks to chain</div>
+      <p class="step-detail">COLE integrates InterwovenKit into Next.js shell and writes the session key hook. Every card play in Phaser triggers the hook — auto-signs and broadcasts without touching the game loop. VERA adds session key grant/revoke contract functions. KAI connects matchmaking to contract for on-chain match creation.</p>
+      <div class="step-tags"><span class="pill pill-teal">COLE: gasless play works</span><span class="pill pill-coral">VERA: session keys</span><span class="pill pill-gray">KAI: on-chain match</span></div>
+    </div>
+  </div>
+
+  <div class="walk-step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <div class="step-title">Days 12–16: Interwoven Bridge + card system</div>
+      <p class="step-detail">VERA implements Interwoven Bridge card import — players can bring cards from other Initia appchains. MIRA finishes all 12 card types with stats, rarities, and spell text. COLE adds particle spell effects and camera shake. KAI writes the card bridge UI component in Next.js. This is the hackathon differentiator — nobody else has cross-chain card import.</p>
+      <div class="step-tags"><span class="pill pill-coral">VERA: bridge works</span><span class="pill pill-teal">COLE: effects live</span><span class="pill pill-amber">MIRA: all 12 cards</span><span class="pill pill-gray">KAI: bridge UI</span></div>
+    </div>
+  </div>
+
+  <div class="walk-step">
+    <div class="step-num">5</div>
+    <div class="step-body">
+      <div class="step-title">Day 17–18: MVP Demo Day target</div>
+      <p class="step-detail">Full end-to-end: connect .init wallet → browse lobby → challenge opponent → play a full battle with animations → win condition fires → prize distributes. MIRA runs 5-person playtest. KAI prepares demo recording as fallback. This is the Mac Mini award window — everything must work live on testnet.</p>
+      <div class="step-tags"><span class="pill pill-gray">All agents: e2e green</span><span class="pill pill-amber">MIRA: playtest done</span></div>
+    </div>
+  </div>
+
+  <div class="walk-step">
+    <div class="step-num">6</div>
+    <div class="step-body">
+      <div class="step-title">Days 19–26: Polish, edge cases, submission</div>
+      <p class="step-detail">Session key expiry handling, error states, loading skeletons, mobile-responsive lobby, gas optimization pass on contracts. KAI records demo video. VERA finalizes submission.json with valid chain ID, txn links, deployed addresses. MIRA writes README in plain English. Submit by Apr 15 23:00 UTC.</p>
+      <div class="step-tags"><span class="pill pill-coral">VERA: submission.json</span><span class="pill pill-gray">KAI: demo video</span><span class="pill pill-amber">MIRA: README</span><span class="pill pill-teal">COLE: polish</span></div>
+    </div>
+  </div>
+
+</div>
+
+<div style="text-align:center;padding:1.5rem 0;border-top:0.5px solid var(--color-border-tertiary);font-size:11px;font-family:var(--font-mono);color:var(--color-text-secondary)">
+  Hackathon req checklist: Minitia deployed · InterwovenKit used · session UX · Interwoven Bridge · .init usernames · submission.json · README · demo video
+</div>
+
+</div>
+
+<script>
+function selectName(idx,el){
+  document.querySelectorAll('.name-card').forEach(c=>c.classList.remove('chosen'));
+  el.classList.add('chosen');
+}
+</script>
