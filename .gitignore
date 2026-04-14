@@ -38,3 +38,10 @@ coverage/
 # Turbo / cache
 .turbo/
 .cache/
+
+# Rust / cargo
+packages/contracts/target/
+packages/contracts/Cargo.lock
+
+# TS build info
+*.tsbuildinfo

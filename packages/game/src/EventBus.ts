@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import * as Phaser from "phaser";
 import type { EventPayloads } from "@ryft/types";
 
 class TypedEventBus extends Phaser.Events.EventEmitter {

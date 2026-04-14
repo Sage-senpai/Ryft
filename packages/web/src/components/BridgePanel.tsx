@@ -3,15 +3,7 @@
 import { useInterwovenKit } from "@initia/interwovenkit-react";
 
 export function BridgePanel() {
-  const { openBridge } = useInterwovenKit() as {
-    openBridge: (details: {
-      srcChainId: string;
-      srcDenom: string;
-      dstChainId: string;
-      dstDenom: string;
-      quantity: string;
-    }) => void;
-  };
+  const { openBridge } = useInterwovenKit();
 
   const bringCards = () => {
     openBridge({

@@ -3,6 +3,7 @@
 import { useInterwovenKit } from "@initia/interwovenkit-react";
 import { useSessionKey } from "@/hooks/useSessionKey";
 import { BridgePanel } from "@/components/BridgePanel";
+import { GameCanvas } from "@/components/GameCanvas";
 
 export default function GameShell() {
   const { address, username, openConnect, openWallet } = useInterwovenKit();
@@ -41,9 +42,11 @@ export default function GameShell() {
         </button>
       </header>
       <section style={{ marginTop: 32 }}>
-        <p>Session: {ready ? `ready (until ${new Date(expiresAt ?? 0).toLocaleTimeString()})` : "connecting"}</p>
-        <p>Phaser canvas mounts here (COLE Day 2).</p>
+        <p style={{ opacity: 0.6, fontSize: 12 }}>
+          Session: {ready ? `ready (until ${new Date(expiresAt ?? 0).toLocaleTimeString()})` : "connecting"}
+        </p>
       </section>
+      <GameCanvas />
       <BridgePanel />
     </main>
   );

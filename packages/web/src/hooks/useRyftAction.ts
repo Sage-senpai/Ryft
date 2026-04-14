@@ -17,10 +17,7 @@ export interface ActionResult {
 }
 
 export function useRyftAction() {
-  const { requestTxBlock, address } = useInterwovenKit() as {
-    requestTxBlock: (args: { messages: unknown[] }) => Promise<{ transactionHash: string }>;
-    address?: string;
-  };
+  const { requestTxBlock, address } = useInterwovenKit();
 
   const queue = useRef<QueuedAction[]>([]);
   const processing = useRef(false);
@@ -33,7 +30,7 @@ export function useRyftAction() {
         const next = queue.current.shift();
         if (!next) break;
         try {
-          const { transactionHash } = await requestTxBlock({
+          const result = await requestTxBlock({
             messages: [
               {
                 typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
@@ -46,7 +43,7 @@ export function useRyftAction() {
               },
             ],
           });
-          onResult({ event_id: next.event_id, tx_hash: transactionHash });
+          onResult({ event_id: next.event_id, tx_hash: result.transactionHash });
         } catch (e) {
           onResult({ event_id: next.event_id, error: (e as Error).message });
         }

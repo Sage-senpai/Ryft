@@ -29,12 +29,7 @@ export default function Providers({ children }: PropsWithChildren) {
   return (
     <QueryClientProvider client={queryClient}>
       <WagmiProvider config={wagmiConfig}>
-        <InterwovenKitProvider
-          defaultChainId={RYFT_CHAIN_ID}
-          enableAutoSign={{
-            [RYFT_CHAIN_ID]: ["/cosmwasm.wasm.v1.MsgExecuteContract"],
-          }}
-        >
+        <InterwovenKitProvider defaultChainId={RYFT_CHAIN_ID}>
           {children}
         </InterwovenKitProvider>
       </WagmiProvider>

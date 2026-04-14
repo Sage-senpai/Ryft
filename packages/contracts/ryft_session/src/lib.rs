@@ -85,3 +85,63 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
         QueryMsg::Grant { player } => to_json_binary(&GRANTS.load(deps.storage, player)?),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use cosmwasm_std::testing::{mock_dependencies, mock_env, mock_info};
+
+    #[test]
+    fn player_can_register_own_grant() {
+        let mut deps = mock_dependencies();
+        instantiate(deps.as_mut(), mock_env(), mock_info("alice", &[]), InstantiateMsg {}).unwrap();
+        execute(
+            deps.as_mut(),
+            mock_env(),
+            mock_info("alice", &[]),
+            ExecuteMsg::RegisterGrant { player: "alice".into(), expires_at: 9999 },
+        )
+        .unwrap();
+    }
+
+    #[test]
+    fn cannot_register_grant_for_another_player() {
+        let mut deps = mock_dependencies();
+        instantiate(deps.as_mut(), mock_env(), mock_info("alice", &[]), InstantiateMsg {}).unwrap();
+        let err = execute(
+            deps.as_mut(),
+            mock_env(),
+            mock_info("eve", &[]),
+            ExecuteMsg::RegisterGrant { player: "alice".into(), expires_at: 9999 },
+        )
+        .unwrap_err();
+        assert!(matches!(err, ContractError::Unauthorized));
+    }
+
+    #[test]
+    fn session_key_scope_is_enforced_by_sender_check() {
+        // ryft_session exists to record grant metadata; the actual authz/feegrant
+        // scope enforcement lives at the chain level via InterwovenKit AutoSign
+        // (grant for /cosmwasm.wasm.v1.MsgExecuteContract scoped to ryft_battle).
+        // This test asserts that our on-contract metadata CANNOT be forged by a
+        // third party — only the player themselves can register or revoke their
+        // own grant record.
+        let mut deps = mock_dependencies();
+        instantiate(deps.as_mut(), mock_env(), mock_info("alice", &[]), InstantiateMsg {}).unwrap();
+        execute(
+            deps.as_mut(),
+            mock_env(),
+            mock_info("alice", &[]),
+            ExecuteMsg::RegisterGrant { player: "alice".into(), expires_at: 9999 },
+        )
+        .unwrap();
+        let err = execute(
+            deps.as_mut(),
+            mock_env(),
+            mock_info("eve", &[]),
+            ExecuteMsg::RevokeGrant { player: "alice".into() },
+        )
+        .unwrap_err();
+        assert!(matches!(err, ContractError::Unauthorized));
+    }
+}

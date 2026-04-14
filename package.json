@@ -5,6 +5,7 @@
   "description": "RYFT — Cross-chain animated card battle game on Initia",
   "packageManager": "pnpm@9.12.0",
   "scripts": {
+    "postinstall": "node scripts/patch-cosmjs-exports.mjs",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",

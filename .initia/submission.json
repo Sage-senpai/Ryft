@@ -5,8 +5,8 @@
   "rollup_chain_id": "ryft-1",
   "deployed_address": "init1_replace_me_after_deploy",
   "vm": "wasm",
-  "native_feature": "auto-signing",
+  "native_feature": "interwoven-bridge",
   "core_logic_path": "packages/contracts/ryft_battle/src/lib.rs",
-  "native_feature_frontend_path": "packages/web/src/hooks/useSessionKey.ts",
+  "native_feature_frontend_path": "packages/web/src/components/BridgePanel.tsx",
   "demo_video_url": "https://youtu.be/REPLACE_ME"
 }

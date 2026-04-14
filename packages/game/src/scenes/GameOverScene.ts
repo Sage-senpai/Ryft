@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import * as Phaser from "phaser";
 import { EventBus } from "../EventBus";
 
 export class GameOverScene extends Phaser.Scene {

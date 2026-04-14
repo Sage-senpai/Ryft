@@ -1,0 +1,13 @@
+{
+  "frames": {
+    "ryft_001_idle": { "frame": { "x": 0, "y": 0, "w": 1, "h": 1 }, "sourceSize": { "w": 1, "h": 1 }, "spriteSourceSize": { "x": 0, "y": 0, "w": 1, "h": 1 } }
+  },
+  "meta": {
+    "app": "ryft-placeholder",
+    "version": "0.0.1",
+    "image": "cards.png",
+    "format": "RGBA8888",
+    "size": { "w": 1, "h": 1 },
+    "scale": "1"
+  }
+}
