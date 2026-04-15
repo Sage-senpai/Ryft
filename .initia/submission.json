@@ -1,7 +1,7 @@
 {
   "project_name": "RYFT",
-  "repo_url": "https://github.com/REPLACE_ME/ryft",
-  "commit_sha": "0000000000000000000000000000000000000000",
+  "repo_url": "https://github.com/Sage-senpai/Ryft",
+  "commit_sha": "10d7f7bca2d3c6791a415a8375e2bb1815d76bfe",
   "rollup_chain_id": "ryft-1",
   "deployed_address": "init1_pending_weave_launch",
   "vm": "wasm",
