@@ -7,7 +7,10 @@ const WS_URL = process.env.NEXT_PUBLIC_MATCHMAKING_WS_URL;
 
 export function GameCanvas() {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const gameRef = useRef<{ destroy: (a: boolean) => void } | null>(null);
+  const gameRef = useRef<{
+    destroy: (a: boolean) => void;
+    registry: { set: (k: string, v: unknown) => void };
+  } | null>(null);
   const clientRef = useRef<{ close: () => void; queueJoin: () => void } | null>(null);
   const { address, username } = useInterwovenKit();
 
@@ -17,9 +20,22 @@ export function GameCanvas() {
       const gameMod = await import("@ryft/game");
       if (cancelled || !containerRef.current) return;
 
-      gameRef.current = gameMod.createRyftGame({
+      const game = gameMod.createRyftGame({
         parent: containerRef.current.id,
-      }) as unknown as { destroy: (a: boolean) => void };
+      }) as unknown as {
+        destroy: (a: boolean) => void;
+        registry: { set: (k: string, v: unknown) => void };
+      };
+      gameRef.current = game;
+
+      // Write the wallet into the Phaser registry IMMEDIATELY so
+      // MainMenuScene.create() can read it synchronously regardless of how
+      // long Boot/Preload take. Scenes also listen for WALLET_CONNECTED
+      // for the case where the wallet connects AFTER the game is already
+      // on the menu scene.
+      if (address) {
+        game.registry.set("wallet", { address, username: username ?? "" });
+      }
 
       // Wire the optional matchmaking ws client. If the env var is not
       // set we silently skip — the lobby falls back to its mock roster.
@@ -51,12 +67,16 @@ export function GameCanvas() {
         }
       }
 
-      setTimeout(() => {
+      // Also emit WALLET_CONNECTED for scenes that mount later. The
+      // registry path handles the case where MainMenu runs create() before
+      // this emit fires; this emit handles the case where the user
+      // connects their wallet AFTER the game is already running.
+      if (address) {
         gameMod.EventBus.emitTyped("WALLET_CONNECTED", {
-          address: address ?? "",
+          address,
           username: username ?? "",
         });
-      }, 400);
+      }
     })();
     return () => {
       cancelled = true;

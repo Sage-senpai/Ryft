@@ -78,6 +78,7 @@ export class BattleScene extends Phaser.Scene {
     this.drawOpponentZone(width);
     this.drawHand();
     this.pushLog("Match started vs @voidmother.init");
+    this.showHint();
 
     EventBus.onTyped("ACTION_CONFIRMED", this.onActionConfirmed, this);
     EventBus.emitTyped("SCENE_READY", { scene_key: "Battle" });
@@ -416,6 +417,26 @@ export class BattleScene extends Phaser.Scene {
       duration: this.beats.damage_display_ms + 200,
       ease: "Cubic.easeOut",
       onComplete: () => txt.destroy(),
+    });
+  }
+
+  private showHint() {
+    const { width, height } = this.scale;
+    const hint = this.add
+      .text(width / 2, height - CARD_H - 70, "→ Click a card to play it", {
+        fontSize: "14px",
+        color: "#a08cff",
+        fontStyle: "italic",
+      })
+      .setOrigin(0.5);
+    hint.setAlpha(0);
+    this.tweens.add({ targets: hint, alpha: 1, duration: 600, delay: 800 });
+    this.tweens.add({
+      targets: hint,
+      alpha: 0,
+      duration: 400,
+      delay: 6000,
+      onComplete: () => hint.destroy(),
     });
   }
 

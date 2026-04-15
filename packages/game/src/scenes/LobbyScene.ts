@@ -23,6 +23,21 @@ export class LobbyScene extends Phaser.Scene {
     this.add.text(40, 32, "LOBBY", { fontSize: "28px", color: "#e8e8f0", fontStyle: "bold" });
     this.add.text(40, 66, "Elemental Wardens queue", { fontSize: "14px", color: "#6c6c80" });
 
+    // How-to-play banner
+    const tipBar = this.add.graphics();
+    tipBar.fillStyle(0x1a1a2e, 0.9);
+    tipBar.fillRoundedRect(40, height - 60, width - 80, 44, 6);
+    tipBar.lineStyle(1, 0x6c5ce7, 0.5);
+    tipBar.strokeRoundedRect(40, height - 60, width - 80, 44, 6);
+    this.add
+      .text(
+        width / 2,
+        height - 38,
+        "→ Click QUICK MATCH to battle. Click Bring Cards to open the Interwoven Bridge.",
+        { fontSize: "13px", color: "#a08cff" }
+      )
+      .setOrigin(0.5);
+
     const panelX = 40;
     const panelY = 110;
     const panelW = 520;
@@ -57,20 +72,17 @@ export class LobbyScene extends Phaser.Scene {
       this.startCountdown();
     });
 
-    // If the matchmaking ws client is wired, a real MATCH_FOUND frame
-    // will arrive before the countdown delay finishes and we transition
-    // immediately. Otherwise the countdown falls through to the mock.
-    EventBus.onTyped("MATCH_FOUND", () => {
-      if (this.scene.isActive("Lobby")) {
-        this.scene.start("Battle");
-      }
-    });
-
     this.drawButton(btnX, btnY + 88, "Bring Cards", 240, 48, 0x1a1a2e, () => {
       EventBus.emitTyped("REQUEST_BRIDGE_OPEN", {});
     });
 
     this.drawButton(btnX, btnY + 152, "Collection", 240, 48, 0x1a1a2e, () => {});
+
+    EventBus.onTyped("MATCH_FOUND", () => {
+      if (this.scene.isActive("Lobby")) {
+        this.scene.start("Battle");
+      }
+    });
 
     EventBus.emitTyped("SCENE_READY", { scene_key: "Lobby" });
   }
@@ -128,7 +140,6 @@ export class LobbyScene extends Phaser.Scene {
           role: "host",
           on_chain_match_id: "1",
         });
-        this.scene.start("Battle");
       });
     });
   }

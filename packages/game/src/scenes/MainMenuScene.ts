@@ -1,10 +1,20 @@
 import * as Phaser from "phaser";
 import { EventBus } from "../EventBus";
 
+interface WalletState {
+  address: string;
+  username: string;
+}
+
 export class MainMenuScene extends Phaser.Scene {
+  private statusText!: Phaser.GameObjects.Text;
+  private hintText!: Phaser.GameObjects.Text;
+  private advanced = false;
+
   constructor() {
     super("MainMenu");
   }
+
   create() {
     const { width, height } = this.scale;
 
@@ -53,19 +63,49 @@ export class MainMenuScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
-    const statusText = this.add
-      .text(width / 2, height / 2 + 120, "Connect your wallet to begin", {
+    this.statusText = this.add
+      .text(width / 2, height / 2 + 110, "", {
         fontSize: "16px",
         color: "#6c6c80",
       })
       .setOrigin(0.5);
 
+    this.hintText = this.add
+      .text(width / 2, height / 2 + 150, "", {
+        fontSize: "13px",
+        color: "#a08cff",
+      })
+      .setOrigin(0.5);
+
+    // Check the registry synchronously — GameCanvas writes the wallet there
+    // before Boot/Preload finish, so we can react on first paint even if
+    // the WALLET_CONNECTED event fired before we subscribed.
+    const existing = this.registry.get("wallet") as WalletState | undefined;
+    if (existing?.address) {
+      this.onWalletReady(existing);
+    } else {
+      this.statusText.setText("Connect your wallet to begin");
+      this.hintText.setText("Click \"Sign in with .init\" at the top of the page");
+    }
+
     EventBus.onTyped("WALLET_CONNECTED", (p) => {
-      statusText.setText(`Welcome @${p.username || "warden"}`);
-      statusText.setColor("#a08cff");
-      this.time.delayedCall(600, () => this.scene.start("Lobby"));
+      this.onWalletReady({ address: p.address, username: p.username });
     });
 
     EventBus.emitTyped("SCENE_READY", { scene_key: "MainMenu" });
+  }
+
+  private onWalletReady(wallet: WalletState) {
+    if (this.advanced) return;
+    this.advanced = true;
+    const name = wallet.username || wallet.address.slice(0, 10) + "...";
+    this.statusText.setText(`Welcome @${name}`);
+    this.statusText.setColor("#a08cff");
+    this.hintText.setText("Entering lobby...");
+    this.time.delayedCall(700, () => {
+      if (this.scene.isActive("MainMenu")) {
+        this.scene.start("Lobby");
+      }
+    });
   }
 }
