@@ -9,7 +9,7 @@ export function BridgePanel() {
     openBridge({
       srcChainId: "interwoven-1",
       srcDenom: "uinit",
-      dstChainId: process.env.NEXT_PUBLIC_CHAIN_ID ?? "ryft-1",
+      dstChainId: process.env.NEXT_PUBLIC_CHAIN_ID || "interwoven-1",
       dstDenom: "uryft",
       quantity: "1",
     });

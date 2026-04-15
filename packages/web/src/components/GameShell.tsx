@@ -5,7 +5,7 @@ import { useSessionKey } from "@/hooks/useSessionKey";
 import { BridgePanel } from "@/components/BridgePanel";
 import { GameCanvas } from "@/components/GameCanvas";
 
-const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID ?? "ryft-1";
+const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID || "interwoven-1";
 
 export default function GameShell() {
   const { address, username, openConnect, openWallet } = useInterwovenKit();

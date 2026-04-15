@@ -19,7 +19,14 @@ const wagmiConfig = createConfig({
 
 const queryClient = new QueryClient();
 
-const RYFT_CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID ?? "ryft-1";
+// InterwovenKit ships a chain registry that includes `interwoven-1`
+// (Initia testnet) and all known Minitias. Our own `ryft-1` chain is not
+// in the registry yet because it has not been launched with `weave`.
+// Until it is, we default to `interwoven-1` so the hackathon demo boots
+// against a real chain. The moment ryft-1 is live, set
+// NEXT_PUBLIC_CHAIN_ID=ryft-1 in .env.local and register it via the
+// customChain prop below (the shape is @initia/initia-registry-types#Chain).
+const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID || "interwoven-1";
 
 export default function Providers({ children }: PropsWithChildren) {
   useEffect(() => {
@@ -29,7 +36,7 @@ export default function Providers({ children }: PropsWithChildren) {
   return (
     <QueryClientProvider client={queryClient}>
       <WagmiProvider config={wagmiConfig}>
-        <InterwovenKitProvider defaultChainId={RYFT_CHAIN_ID}>
+        <InterwovenKitProvider defaultChainId={CHAIN_ID}>
           {children}
         </InterwovenKitProvider>
       </WagmiProvider>
