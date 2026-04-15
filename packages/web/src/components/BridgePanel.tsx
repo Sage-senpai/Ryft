@@ -16,10 +16,16 @@ export function BridgePanel() {
   };
 
   return (
-    <section style={{ marginTop: 32, padding: 16, border: "1px solid #333", borderRadius: 8 }}>
-      <h3 style={{ margin: 0 }}>Collection</h3>
-      <p style={{ opacity: 0.7 }}>Bring a card from another world.</p>
-      <button onClick={bringCards}>Open bridge</button>
+    <section className="ryft-bridge-panel">
+      <div>
+        <p className="ryft-bridge-title">Bring cards from another world</p>
+        <p className="ryft-bridge-sub">
+          Import assets from any Initia appchain via the Interwoven Bridge. Your cards carry their rarity across chains.
+        </p>
+      </div>
+      <button className="ryft-bridge-btn" onClick={bringCards}>
+        Open bridge →
+      </button>
     </section>
   );
 }

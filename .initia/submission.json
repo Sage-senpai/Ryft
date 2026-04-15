@@ -3,7 +3,7 @@
   "repo_url": "https://github.com/REPLACE_ME/ryft",
   "commit_sha": "0000000000000000000000000000000000000000",
   "rollup_chain_id": "ryft-1",
-  "deployed_address": "init1_replace_me_after_deploy",
+  "deployed_address": "init1_pending_weave_launch",
   "vm": "wasm",
   "native_feature": "interwoven-bridge",
   "core_logic_path": "packages/contracts/ryft_battle/src/lib.rs",

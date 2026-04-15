@@ -1,16 +1,260 @@
 :root {
   color-scheme: dark;
-  --ryft-bg: #0a0a12;
+  --ryft-bg: #060612;
+  --ryft-bg-2: #0f0a1e;
+  --ryft-panel: #12121f;
   --ryft-ink: #e8e8f0;
+  --ryft-ink-dim: #7a7f8c;
   --ryft-accent: #6c5ce7;
+  --ryft-accent-bright: #a08cff;
+  --ryft-warn: #ffb84a;
+  --ryft-ok: #6cff9a;
+  --ryft-danger: #ff6c8c;
 }
 
 html, body {
   margin: 0;
   padding: 0;
-  background: var(--ryft-bg);
+  background:
+    radial-gradient(ellipse at top, #1a0f28 0%, transparent 50%),
+    radial-gradient(ellipse at bottom, #281028 0%, transparent 50%),
+    var(--ryft-bg);
   color: var(--ryft-ink);
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
 }
 
 * { box-sizing: border-box; }
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+.ryft-hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.ryft-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(108, 92, 231, 0.18), transparent 40%),
+    radial-gradient(circle at 70% 80%, rgba(160, 140, 255, 0.12), transparent 45%);
+  pointer-events: none;
+}
+
+.ryft-logo {
+  font-size: clamp(64px, 10vw, 128px);
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  background: linear-gradient(180deg, #ffffff 0%, #a08cff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
+  text-shadow: 0 0 40px rgba(160, 140, 255, 0.4);
+  position: relative;
+}
+
+.ryft-tagline {
+  color: var(--ryft-accent-bright);
+  font-style: italic;
+  margin: 12px 0 40px;
+  font-size: 18px;
+  letter-spacing: 0.05em;
+  position: relative;
+}
+
+.ryft-cta {
+  background: linear-gradient(135deg, #6c5ce7 0%, #8270ff 100%);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 16px 48px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 10px;
+  letter-spacing: 0.03em;
+  box-shadow: 0 8px 32px rgba(108, 92, 231, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  position: relative;
+}
+
+.ryft-cta:hover {
+  box-shadow: 0 12px 40px rgba(108, 92, 231, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.ryft-features {
+  display: flex;
+  gap: 24px;
+  margin-top: 48px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 900px;
+  position: relative;
+}
+
+.ryft-feature {
+  background: rgba(18, 18, 31, 0.6);
+  border: 1px solid rgba(108, 92, 231, 0.25);
+  border-radius: 10px;
+  padding: 20px 24px;
+  min-width: 240px;
+  text-align: left;
+  backdrop-filter: blur(10px);
+}
+
+.ryft-feature-title {
+  color: var(--ryft-accent-bright);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.ryft-feature-body {
+  color: var(--ryft-ink);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.ryft-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.ryft-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 28px;
+  border-bottom: 1px solid rgba(108, 92, 231, 0.2);
+  background: rgba(6, 6, 18, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.ryft-hud-brand {
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: var(--ryft-ink);
+  font-size: 20px;
+}
+
+.ryft-hud-chain {
+  margin-left: 16px;
+  font-size: 11px;
+  color: var(--ryft-ink-dim);
+  letter-spacing: 0.08em;
+}
+
+.ryft-hud-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ryft-hud-pill {
+  background: var(--ryft-panel);
+  border: 1px solid rgba(108, 92, 231, 0.3);
+  color: var(--ryft-accent-bright);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ryft-hud-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ryft-ok);
+  box-shadow: 0 0 8px var(--ryft-ok);
+  animation: ryft-pulse 2s ease-in-out infinite;
+}
+
+@keyframes ryft-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.ryft-session-line {
+  font-size: 11px;
+  color: var(--ryft-ink-dim);
+  letter-spacing: 0.04em;
+}
+
+.ryft-game-wrap {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px;
+}
+
+.ryft-game-frame {
+  width: 100%;
+  max-width: 1280px;
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(108, 92, 231, 0.25);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(108, 92, 231, 0.15);
+  background: #060612;
+}
+
+.ryft-bridge-panel {
+  margin: 0 auto 32px;
+  max-width: 1280px;
+  padding: 20px 24px;
+  background: rgba(18, 18, 31, 0.6);
+  border: 1px solid rgba(108, 92, 231, 0.25);
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  backdrop-filter: blur(10px);
+}
+
+.ryft-bridge-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ryft-ink);
+  margin: 0 0 4px;
+}
+
+.ryft-bridge-sub {
+  font-size: 13px;
+  color: var(--ryft-ink-dim);
+  margin: 0;
+}
+
+.ryft-bridge-btn {
+  background: var(--ryft-panel);
+  color: var(--ryft-accent-bright);
+  border: 1px solid rgba(160, 140, 255, 0.4);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.ryft-bridge-btn:hover {
+  background: rgba(108, 92, 231, 0.15);
+  border-color: var(--ryft-accent-bright);
+}

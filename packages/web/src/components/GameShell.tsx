@@ -5,48 +5,66 @@ import { useSessionKey } from "@/hooks/useSessionKey";
 import { BridgePanel } from "@/components/BridgePanel";
 import { GameCanvas } from "@/components/GameCanvas";
 
+const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID ?? "ryft-1";
+
 export default function GameShell() {
   const { address, username, openConnect, openWallet } = useInterwovenKit();
-  const { ready, expiresAt } = useSessionKey();
+  const { ready } = useSessionKey();
 
   if (!address) {
     return (
-      <main style={{ padding: 48, textAlign: "center" }}>
-        <h1 style={{ fontSize: 48, letterSpacing: "0.1em" }}>RYFT</h1>
-        <p style={{ opacity: 0.7 }}>Cross-chain combat. Proven on-chain.</p>
-        <button
-          onClick={openConnect}
-          style={{
-            marginTop: 24,
-            padding: "14px 32px",
-            fontSize: 18,
-            background: "var(--ryft-accent)",
-            color: "white",
-            border: "none",
-            borderRadius: 8,
-            cursor: "pointer",
-          }}
-        >
+      <main className="ryft-hero">
+        <h1 className="ryft-logo">RYFT</h1>
+        <p className="ryft-tagline">Cross-chain combat. Proven on-chain.</p>
+        <button className="ryft-cta" onClick={openConnect}>
           Sign in with .init
         </button>
+        <div className="ryft-features">
+          <div className="ryft-feature">
+            <div className="ryft-feature-title">Auto-signing UX</div>
+            <div className="ryft-feature-body">
+              Every card play auto-signs via InterwovenKit — zero wallet popups during battle.
+            </div>
+          </div>
+          <div className="ryft-feature">
+            <div className="ryft-feature-title">Interwoven Bridge</div>
+            <div className="ryft-feature-body">
+              Bring cards from any Initia appchain straight into your RYFT deck.
+            </div>
+          </div>
+          <div className="ryft-feature">
+            <div className="ryft-feature-title">.init identity</div>
+            <div className="ryft-feature-body">
+              Queue, battle, and taunt by your Initia Username. No hex addresses, ever.
+            </div>
+          </div>
+        </div>
       </main>
     );
   }
 
   return (
-    <main style={{ padding: 24 }}>
-      <header style={{ display: "flex", justifyContent: "space-between" }}>
-        <strong>RYFT</strong>
-        <button onClick={openWallet}>
-          {username ? `@${username}` : address.slice(0, 10) + "..."}
-        </button>
+    <main className="ryft-app">
+      <header className="ryft-hud">
+        <div>
+          <span className="ryft-hud-brand">RYFT</span>
+          <span className="ryft-hud-chain">· {CHAIN_ID}</span>
+        </div>
+        <div className="ryft-hud-user">
+          <span className="ryft-session-line">
+            {ready ? "session ready" : "connecting..."}
+          </span>
+          <span className="ryft-hud-dot" />
+          <button className="ryft-hud-pill" onClick={openWallet}>
+            {username ? `@${username}.init` : `${address.slice(0, 10)}...`}
+          </button>
+        </div>
       </header>
-      <section style={{ marginTop: 32 }}>
-        <p style={{ opacity: 0.6, fontSize: 12 }}>
-          Session: {ready ? `ready (until ${new Date(expiresAt ?? 0).toLocaleTimeString()})` : "connecting"}
-        </p>
+      <section className="ryft-game-wrap">
+        <div className="ryft-game-frame">
+          <GameCanvas />
+        </div>
       </section>
-      <GameCanvas />
       <BridgePanel />
     </main>
   );

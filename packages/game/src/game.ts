@@ -18,9 +18,10 @@ export function createRyftGame(cfg: RyftGameConfig): Phaser.Game {
     parent: cfg.parent,
     width: cfg.width ?? 1280,
     height: cfg.height ?? 720,
-    backgroundColor: "#0a0a12",
+    backgroundColor: "#060612",
     scene: [BootScene, PreloadScene, MainMenuScene, LobbyScene, BattleScene, GameOverScene],
     fps: { target: 60, forceSetTimeOut: false },
-    scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
+    scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH, parent: cfg.parent },
+    render: { antialias: true, pixelArt: false },
   });
 }

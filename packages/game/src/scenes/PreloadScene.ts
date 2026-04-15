@@ -6,9 +6,9 @@ export class PreloadScene extends Phaser.Scene {
     super("Preload");
   }
   preload() {
-    // Day 3: generate real TextureAtlas with TexturePacker. Placeholder 1x1 atlas
-    // keeps Phaser happy so the full scene chain boots without 404s.
-    this.load.json("cards_atlas_meta", "/atlas/cards.json");
+    // No external assets — scenes render with Phaser Graphics primitives so
+    // the game boots instantly without waiting on atlases. Real atlas is a
+    // post-hackathon polish pass.
   }
   create() {
     EventBus.emitTyped("SCENE_READY", { scene_key: "Preload" });

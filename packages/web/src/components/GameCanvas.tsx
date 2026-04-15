@@ -15,15 +15,15 @@ export function GameCanvas() {
       if (cancelled || !containerRef.current) return;
       gameRef.current = gameMod.createRyftGame({
         parent: containerRef.current.id,
-        width: 1280,
-        height: 720,
       }) as unknown as { destroy: (a: boolean) => void };
-      if (address) {
+      // Allow BootScene → Preload → MainMenu chain to run first, then fire
+      // wallet ready so MainMenu catches the event and advances to Lobby.
+      setTimeout(() => {
         gameMod.EventBus.emitTyped("WALLET_CONNECTED", {
-          address,
+          address: address ?? "",
           username: username ?? "",
         });
-      }
+      }, 400);
     })();
     return () => {
       cancelled = true;
@@ -32,11 +32,5 @@ export function GameCanvas() {
     };
   }, [address, username]);
 
-  return (
-    <div
-      id="ryft-game"
-      ref={containerRef}
-      style={{ width: "100%", aspectRatio: "16/9", maxWidth: 1280, marginTop: 16 }}
-    />
-  );
+  return <div id="ryft-game" ref={containerRef} style={{ width: "100%", height: "100%" }} />;
 }
