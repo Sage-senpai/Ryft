@@ -5,6 +5,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "RYFT — Cross-chain combat, proven on-chain",
   description: "Real-time animated card battles on Initia.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
