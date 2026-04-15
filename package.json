@@ -18,6 +18,11 @@
     "typescript": "^5.6.3",
     "@types/node": "^20.16.11"
   },
+  "pnpm": {
+    "overrides": {
+      "ky": "^1.8.2"
+    }
+  },
   "engines": {
     "node": ">=20.11.0",
     "pnpm": ">=9.12.0"
