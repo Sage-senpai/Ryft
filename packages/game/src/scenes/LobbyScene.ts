@@ -53,7 +53,17 @@ export class LobbyScene extends Phaser.Scene {
     const btnY = 110;
 
     this.drawButton(btnX, btnY, "QUICK MATCH", 240, 64, 0x6c5ce7, () => {
+      EventBus.emitTyped("REQUEST_QUEUE", { mode: "quick" });
       this.startCountdown();
+    });
+
+    // If the matchmaking ws client is wired, a real MATCH_FOUND frame
+    // will arrive before the countdown delay finishes and we transition
+    // immediately. Otherwise the countdown falls through to the mock.
+    EventBus.onTyped("MATCH_FOUND", () => {
+      if (this.scene.isActive("Lobby")) {
+        this.scene.start("Battle");
+      }
     });
 
     this.drawButton(btnX, btnY + 88, "Bring Cards", 240, 48, 0x1a1a2e, () => {
