@@ -2,6 +2,7 @@ import * as Phaser from "phaser";
 import type { Card } from "@ryft/types";
 import { EventBus } from "../EventBus";
 import { dealHand, RARITY_COLOR } from "../cards";
+import { ryftAudio } from "../audio";
 
 interface Beats {
   attack_ms: number;
@@ -79,6 +80,8 @@ export class BattleScene extends Phaser.Scene {
     this.drawHand();
     this.pushLog("Match started vs @voidmother.init");
     this.showHint();
+    ryftAudio.playTurnStart();
+    ryftAudio.startAmbient();
 
     EventBus.onTyped("ACTION_CONFIRMED", this.onActionConfirmed, this);
     EventBus.emitTyped("SCENE_READY", { scene_key: "Battle" });
@@ -279,6 +282,7 @@ export class BattleScene extends Phaser.Scene {
     });
 
     const { width, height } = this.scale;
+    ryftAudio.playCardPlace();
     await this.tweenPromise({
       targets: container,
       x: width / 2,
@@ -288,12 +292,14 @@ export class BattleScene extends Phaser.Scene {
       ease: "Cubic.easeInOut",
     });
 
+    ryftAudio.playAttack();
     const flash = this.add.circle(width / 2, height / 2 - 20, 6, 0xffffff, 1);
     this.tweens.add({ targets: flash, radius: 120, alpha: 0, duration: this.beats.damage_display_ms, ease: "Cubic.easeOut" });
 
     const dmg = Math.max(1, card.attack - 2);
     this.dealDamage(dmg, false);
     this.floatingDamage(width / 2, 180, dmg, 0xff6c8c);
+    ryftAudio.playDamage();
 
     await this.delay(this.beats.damage_display_ms);
 
@@ -323,6 +329,7 @@ export class BattleScene extends Phaser.Scene {
     const { width } = this.scale;
     const dmg = 3 + Math.floor(Math.random() * 4);
     this.pushLog(`@${this.opponentUsername}.init plays Voidmother`);
+    ryftAudio.playOpponentAttack();
 
     const mockCard = this.add.graphics();
     mockCard.fillStyle(0x2a1a3e, 1);
@@ -387,6 +394,7 @@ export class BattleScene extends Phaser.Scene {
     });
     this.handSprites.push({ card: next, container, baseX: x, baseY: startY });
     this.pushLog(`You draw ${next.name}`);
+    ryftAudio.playDraw();
   }
 
   private dealDamage(amount: number, toMe: boolean) {
@@ -451,6 +459,8 @@ export class BattleScene extends Phaser.Scene {
   }
 
   private endMatch(won: boolean) {
+    ryftAudio.stopAmbient();
+    if (won) { ryftAudio.playVictory(); } else { ryftAudio.playDefeat(); }
     EventBus.emitTyped("MATCH_RESOLVED", { winner: won ? "me" : "opponent", reason: "hp" });
     this.time.delayedCall(600, () => this.scene.start("GameOver", { won }));
   }

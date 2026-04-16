@@ -1,5 +1,6 @@
 import * as Phaser from "phaser";
 import { EventBus } from "../EventBus";
+import { ryftAudio } from "../audio";
 
 interface WalletState {
   address: string;
@@ -92,6 +93,7 @@ export class MainMenuScene extends Phaser.Scene {
       this.onWalletReady({ address: p.address, username: p.username });
     });
 
+    ryftAudio.startAmbient();
     EventBus.emitTyped("SCENE_READY", { scene_key: "MainMenu" });
   }
 

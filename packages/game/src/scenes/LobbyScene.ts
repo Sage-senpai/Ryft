@@ -1,5 +1,6 @@
 import * as Phaser from "phaser";
 import { EventBus } from "../EventBus";
+import { ryftAudio } from "../audio";
 
 const MOCK_PLAYERS = [
   { username: "ashveil", rating: 1812 },
@@ -84,6 +85,7 @@ export class LobbyScene extends Phaser.Scene {
       }
     });
 
+    ryftAudio.playTurnStart();
     EventBus.emitTyped("SCENE_READY", { scene_key: "Lobby" });
   }
 

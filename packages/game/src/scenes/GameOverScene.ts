@@ -1,5 +1,6 @@
 import * as Phaser from "phaser";
 import { EventBus } from "../EventBus";
+import { ryftAudio } from "../audio";
 
 export class GameOverScene extends Phaser.Scene {
   private won = false;
@@ -27,6 +28,7 @@ export class GameOverScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
+    if (this.won) { ryftAudio.playVictory(); } else { ryftAudio.playDefeat(); }
     title.setAlpha(0);
     this.tweens.add({ targets: title, alpha: 1, y: title.y - 10, duration: 700, ease: "Back.easeOut" });
 

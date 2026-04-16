@@ -62,13 +62,15 @@ button:hover {
   font-size: clamp(64px, 10vw, 128px);
   font-weight: 800;
   letter-spacing: 0.15em;
-  background: linear-gradient(180deg, #ffffff 0%, #a08cff 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #a08cff 30%, #6c5ce7 60%, #a08cff 80%, #ffffff 100%);
+  background-size: 300% 300%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   margin: 0;
   text-shadow: 0 0 40px rgba(160, 140, 255, 0.4);
   position: relative;
+  animation: ryft-gradient-shift 6s ease-in-out infinite;
 }
 
 .ryft-tagline {
@@ -115,6 +117,13 @@ button:hover {
   min-width: 240px;
   text-align: left;
   backdrop-filter: blur(10px);
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+
+.ryft-feature:hover {
+  transform: translateY(-4px) scale(1.03);
+  border-color: var(--ryft-accent-bright);
+  box-shadow: 0 8px 32px rgba(108, 92, 231, 0.35), 0 0 16px rgba(160, 140, 255, 0.15);
 }
 
 .ryft-feature-title {
@@ -257,4 +266,472 @@ button:hover {
 .ryft-bridge-btn:hover {
   background: rgba(108, 92, 231, 0.15);
   border-color: var(--ryft-accent-bright);
+}
+
+/* =============================================
+   Animated gradient logo + particles
+   ============================================= */
+
+@keyframes ryft-gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes ryft-float-up {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(1);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-120vh) scale(0.4);
+  }
+}
+
+.ryft-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ryft-particle {
+  position: absolute;
+  bottom: -8px;
+  left: var(--x, 50%);
+  width: var(--size, 3px);
+  height: var(--size, 3px);
+  border-radius: 50%;
+  background: var(--ryft-accent-bright);
+  opacity: 0;
+  animation: ryft-float-up var(--dur, 6s) var(--delay, 0s) ease-in infinite;
+  box-shadow: 0 0 6px rgba(160, 140, 255, 0.6);
+}
+
+/* Subheading below the tagline */
+.ryft-subheading {
+  color: var(--ryft-ink);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  margin: 0 0 32px;
+  position: relative;
+  opacity: 0.85;
+}
+
+/* How to Play link */
+.ryft-how-link {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--ryft-accent-bright);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(160, 140, 255, 0.4);
+  padding-bottom: 2px;
+  transition: color 150ms ease, border-color 150ms ease;
+  position: relative;
+}
+
+.ryft-how-link:hover {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+/* Hero footer */
+.ryft-hero-footer {
+  margin-top: 48px;
+  font-size: 12px;
+  color: var(--ryft-ink-dim);
+  letter-spacing: 0.08em;
+  position: relative;
+}
+
+/* =============================================
+   HUD gear button
+   ============================================= */
+
+.ryft-hud-gear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(108, 92, 231, 0.3);
+  background: var(--ryft-panel);
+  color: var(--ryft-ink-dim);
+  padding: 0;
+  transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+
+.ryft-hud-gear:hover {
+  color: var(--ryft-accent-bright);
+  border-color: var(--ryft-accent-bright);
+  background: rgba(108, 92, 231, 0.12);
+  transform: translateY(0);
+}
+
+/* =============================================
+   Settings panel overlay
+   ============================================= */
+
+.ryft-settings-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.ryft-settings-panel {
+  background: var(--ryft-panel);
+  border: 1px solid rgba(108, 92, 231, 0.35);
+  border-radius: 14px;
+  width: 380px;
+  max-width: 92vw;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(108, 92, 231, 0.15);
+  overflow: hidden;
+}
+
+.ryft-settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(108, 92, 231, 0.2);
+}
+
+.ryft-settings-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ryft-ink);
+  letter-spacing: 0.04em;
+}
+
+.ryft-settings-close {
+  background: none;
+  border: none;
+  color: var(--ryft-ink-dim);
+  font-size: 18px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 120ms ease, background 120ms ease;
+}
+
+.ryft-settings-close:hover {
+  color: var(--ryft-ink);
+  background: rgba(108, 92, 231, 0.15);
+  transform: translateY(0);
+}
+
+.ryft-settings-body {
+  padding: 20px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ryft-settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ryft-settings-label {
+  font-size: 14px;
+  color: var(--ryft-ink);
+  font-weight: 500;
+}
+
+.ryft-settings-toggle {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(108, 92, 231, 0.3);
+  color: var(--ryft-ink-dim);
+  padding: 6px 18px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  transition: all 150ms ease;
+}
+
+.ryft-settings-toggle.active {
+  background: rgba(108, 92, 231, 0.25);
+  border-color: var(--ryft-accent-bright);
+  color: var(--ryft-accent-bright);
+}
+
+.ryft-settings-slider-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ryft-settings-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+}
+
+.ryft-settings-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ryft-accent-bright);
+  cursor: pointer;
+  border: 2px solid var(--ryft-panel);
+  box-shadow: 0 0 8px rgba(160, 140, 255, 0.5);
+}
+
+.ryft-settings-slider:disabled {
+  opacity: 0.35;
+}
+
+.ryft-settings-slider-val {
+  font-size: 12px;
+  color: var(--ryft-ink-dim);
+  min-width: 28px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* =============================================
+   How to Play guide page
+   ============================================= */
+
+.ryft-guide {
+  min-height: 100vh;
+  padding: 48px 24px 80px;
+  position: relative;
+}
+
+.ryft-guide-inner {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.ryft-guide-back {
+  display: inline-block;
+  color: var(--ryft-accent-bright);
+  font-size: 14px;
+  text-decoration: none;
+  margin-bottom: 32px;
+  transition: color 150ms ease;
+}
+
+.ryft-guide-back:hover {
+  color: #ffffff;
+}
+
+.ryft-guide-title {
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, #ffffff 0%, #a08cff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0 0 48px;
+}
+
+.ryft-guide-section {
+  margin-bottom: 48px;
+}
+
+.ryft-guide-heading {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ryft-accent-bright);
+  letter-spacing: 0.06em;
+  margin: 0 0 16px;
+  text-transform: uppercase;
+}
+
+.ryft-guide-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ryft-ink);
+  margin: 0;
+}
+
+/* Card type grid */
+.ryft-guide-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.ryft-guide-card-type {
+  background: rgba(18, 18, 31, 0.6);
+  border: 2px solid var(--card-border, #7a7f8c);
+  border-radius: 12px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.ryft-guide-card-type:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.ryft-guide-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.ryft-guide-rarity {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--card-border, #7a7f8c);
+}
+
+.ryft-guide-card-count {
+  font-size: 12px;
+  color: var(--ryft-ink-dim);
+}
+
+.ryft-guide-card-desc {
+  font-size: 13px;
+  color: var(--ryft-ink);
+  margin: 0 0 14px;
+  line-height: 1.5;
+}
+
+.ryft-guide-examples {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ryft-guide-example {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.ryft-guide-example-name {
+  color: var(--ryft-ink);
+}
+
+.ryft-guide-example-stats {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Steps */
+.ryft-guide-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ryft-guide-step {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  background: rgba(18, 18, 31, 0.5);
+  border: 1px solid rgba(108, 92, 231, 0.15);
+  border-radius: 10px;
+  transition: border-color 150ms ease;
+}
+
+.ryft-guide-step:hover {
+  border-color: rgba(108, 92, 231, 0.4);
+}
+
+.ryft-guide-step-num {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(108, 92, 231, 0.2);
+  color: var(--ryft-accent-bright);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.ryft-guide-step-text {
+  font-size: 14px;
+  color: var(--ryft-ink);
+  line-height: 1.5;
+}
+
+/* Stats grid */
+.ryft-guide-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.ryft-guide-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  background: rgba(18, 18, 31, 0.5);
+  border: 1px solid rgba(108, 92, 231, 0.15);
+  border-radius: 10px;
+}
+
+.ryft-guide-stat-label {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.ryft-guide-stat-desc {
+  font-size: 13px;
+  color: var(--ryft-ink);
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+/* Cross-chain list */
+.ryft-guide-cross-list {
+  padding: 0 0 0 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ryft-guide-cross-list li {
+  font-size: 14px;
+  color: var(--ryft-ink);
+  line-height: 1.6;
+}
+
+.ryft-guide-cross-list strong {
+  color: var(--ryft-accent-bright);
 }
