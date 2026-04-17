@@ -141,7 +141,8 @@ button:hover {
 }
 
 .ryft-app {
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -208,16 +209,19 @@ button:hover {
 
 .ryft-game-wrap {
   flex: 1;
+  min-height: 0;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 24px;
+  align-items: center;
+  padding: 12px 20px;
+  overflow: hidden;
 }
 
 .ryft-game-frame {
   width: 100%;
   max-width: 1280px;
   aspect-ratio: 16/9;
+  max-height: 100%;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid rgba(108, 92, 231, 0.25);
@@ -734,4 +738,147 @@ button:hover {
 
 .ryft-guide-cross-list strong {
   color: var(--ryft-accent-bright);
+}
+
+/* =============================================
+   In-game quick guide panel
+   ============================================= */
+
+.ryft-hud-help {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: 1px solid rgba(108, 92, 231, 0.35);
+  border-radius: 8px;
+  color: var(--ryft-ink-dim);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0;
+}
+
+.ryft-hud-help:hover {
+  color: var(--ryft-accent-bright);
+  border-color: var(--ryft-accent-bright);
+  background: rgba(108, 92, 231, 0.08);
+}
+
+.ryft-qguide-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 72px 24px 24px;
+}
+
+.ryft-qguide-panel {
+  background: var(--ryft-panel);
+  border: 1px solid rgba(108, 92, 231, 0.35);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6), 0 0 40px rgba(108, 92, 231, 0.15);
+}
+
+.ryft-qguide-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 0;
+}
+
+.ryft-qguide-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ryft-accent-bright);
+  letter-spacing: 0.05em;
+}
+
+.ryft-qguide-close {
+  background: none;
+  border: none;
+  color: var(--ryft-ink-dim);
+  font-size: 20px;
+  line-height: 1;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.ryft-qguide-close:hover {
+  color: var(--ryft-ink);
+  background: rgba(108, 92, 231, 0.15);
+}
+
+.ryft-qguide-body {
+  padding: 16px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ryft-qguide-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ryft-accent-bright);
+  margin: 0 0 8px;
+}
+
+.ryft-qguide-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ryft-qguide-item {
+  font-size: 13px;
+  color: var(--ryft-ink);
+  line-height: 1.5;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 7px;
+  border-left: 2px solid rgba(108, 92, 231, 0.4);
+}
+
+.ryft-qguide-item strong {
+  color: var(--ryft-accent-bright);
+}
+
+.ryft-qguide-rarity-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ryft-qguide-rarity-tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.ryft-qguide-link {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--ryft-accent-bright);
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.ryft-qguide-link:hover {
+  opacity: 1;
+  text-decoration: underline;
 }

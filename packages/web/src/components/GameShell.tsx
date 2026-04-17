@@ -4,9 +4,57 @@ import { useState } from "react";
 import Link from "next/link";
 import { useInterwovenKit } from "@initia/interwovenkit-react";
 import { useSessionKey } from "@/hooks/useSessionKey";
-import { BridgePanel } from "@/components/BridgePanel";
 import { GameCanvas } from "@/components/GameCanvas";
 import { SettingsPanel } from "@/components/SettingsPanel";
+
+function QuickGuidePanel({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="ryft-qguide-overlay" onClick={onClose}>
+      <div className="ryft-qguide-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="ryft-qguide-header">
+          <h2 className="ryft-qguide-title">HOW TO PLAY</h2>
+          <button className="ryft-qguide-close" onClick={onClose} aria-label="Close">✕</button>
+        </div>
+        <div className="ryft-qguide-body">
+          <div>
+            <p className="ryft-qguide-section-title">Objective</p>
+            <div className="ryft-qguide-items">
+              <div className="ryft-qguide-item">Reduce your opponent&apos;s <strong>HP to 0</strong> before they do the same to you. Both players start at <strong>30 HP</strong>.</div>
+            </div>
+          </div>
+          <div>
+            <p className="ryft-qguide-section-title">Your Turn</p>
+            <div className="ryft-qguide-items">
+              <div className="ryft-qguide-item"><strong>Click a card</strong> in your hand to play it — your Warden attacks the opponent directly.</div>
+              <div className="ryft-qguide-item">Each card has <strong>ATK</strong> (damage dealt) and <strong>DEF</strong> (damage blocked). Your opponent&apos;s ATK hits you back.</div>
+              <div className="ryft-qguide-item">After you play, it&apos;s the opponent&apos;s turn — they auto-play. New cards are drawn each round.</div>
+            </div>
+          </div>
+          <div>
+            <p className="ryft-qguide-section-title">Card Rarities</p>
+            <div className="ryft-qguide-rarity-row">
+              <span className="ryft-qguide-rarity-tag" style={{ background: "rgba(108,92,231,0.2)", color: "#a08cff", border: "1px solid #6c5ce7" }}>COMMON</span>
+              <span className="ryft-qguide-rarity-tag" style={{ background: "rgba(0,200,255,0.15)", color: "#00c8ff", border: "1px solid #00c8ff" }}>RARE</span>
+              <span className="ryft-qguide-rarity-tag" style={{ background: "rgba(255,184,74,0.2)", color: "#ffb84a", border: "1px solid #ffb84a" }}>LEGENDARY</span>
+            </div>
+            <div className="ryft-qguide-items" style={{ marginTop: 8 }}>
+              <div className="ryft-qguide-item">Higher rarity = stronger stats. <strong>Legendary</strong> cards can swing the match in a single play.</div>
+            </div>
+          </div>
+          <div>
+            <p className="ryft-qguide-section-title">Cross-chain</p>
+            <div className="ryft-qguide-items">
+              <div className="ryft-qguide-item">Use the <strong>Bridge</strong> panel (bottom) to bring cards from any Initia appchain into your deck via the Interwoven Bridge.</div>
+            </div>
+          </div>
+          <Link href="/how-to-play" className="ryft-qguide-link" onClick={onClose}>
+            Full guide with all 12 Wardens →
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID || "interwoven-1";
 
@@ -33,9 +81,20 @@ function HeroParticles() {
 }
 
 export default function GameShell() {
-  const { address, username, openConnect, openWallet } = useInterwovenKit();
+  const { address, username, openConnect, openWallet, openBridge } = useInterwovenKit();
   const { ready } = useSessionKey();
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [guideOpen, setGuideOpen] = useState(false);
+
+  const handleBridge = () => {
+    openBridge({
+      srcChainId: "interwoven-1",
+      srcDenom: "uinit",
+      dstChainId: CHAIN_ID,
+      dstDenom: "uryft",
+      quantity: "1",
+    });
+  };
 
   if (!address) {
     return (
@@ -94,6 +153,16 @@ export default function GameShell() {
           <button className="ryft-hud-pill" onClick={openWallet}>
             {username ? `@${username}.init` : `${address.slice(0, 10)}...`}
           </button>
+          <button className="ryft-bridge-btn" onClick={handleBridge} style={{ padding: "8px 14px", fontSize: 13 }}>
+            Bridge
+          </button>
+          <button
+            className="ryft-hud-help"
+            onClick={() => setGuideOpen(true)}
+            aria-label="How to Play"
+          >
+            ?
+          </button>
           <button
             className="ryft-hud-gear"
             onClick={() => setSettingsOpen(true)}
@@ -126,7 +195,9 @@ export default function GameShell() {
           <GameCanvas />
         </div>
       </section>
-      <BridgePanel />
+      {guideOpen && (
+        <QuickGuidePanel onClose={() => setGuideOpen(false)} />
+      )}
       {settingsOpen && (
         <SettingsPanel onClose={() => setSettingsOpen(false)} />
       )}
