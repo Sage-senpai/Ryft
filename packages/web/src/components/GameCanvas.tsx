@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { useInterwovenKit } from "@initia/interwovenkit-react";
 
 const WS_URL = process.env.NEXT_PUBLIC_MATCHMAKING_WS_URL;
+const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID || "interwoven-1";
 
 export function GameCanvas() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -12,7 +13,11 @@ export function GameCanvas() {
     registry: { set: (k: string, v: unknown) => void };
   } | null>(null);
   const clientRef = useRef<{ close: () => void; queueJoin: () => void } | null>(null);
-  const { address, username } = useInterwovenKit();
+  const { address, username, openBridge } = useInterwovenKit();
+
+  /* always-current ref so the Phaser event handler never captures a stale fn */
+  const openBridgeRef = useRef(openBridge);
+  openBridgeRef.current = openBridge;
 
   useEffect(() => {
     let cancelled = false;
@@ -62,6 +67,17 @@ export function GameCanvas() {
             },
           });
           gameMod.EventBus.onTyped("REQUEST_QUEUE", () => clientRef.current?.queueJoin());
+
+        /* Bridge button inside Phaser → open InterwovenKit bridge modal */
+        gameMod.EventBus.onTyped("REQUEST_BRIDGE_OPEN", () => {
+          openBridgeRef.current({
+            srcChainId: "interwoven-1",
+            srcDenom: "uinit",
+            dstChainId: CHAIN_ID,
+            dstDenom: "uryft",
+            quantity: "1",
+          });
+        });
         } catch (e) {
           console.warn("[ryft] matchmaking client disabled:", (e as Error).message);
         }
